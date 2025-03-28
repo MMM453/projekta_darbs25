@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>F1 Latvija | Sākumlapa</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+      color: #f1f1f1;
+    }
+
+    .navbar {
+      background-color: #d90429;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .hero {
+      padding: 100px 0;
+      text-align: center;
+      background: linear-gradient(145deg, #d90429, #6a040f);
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-top: 10px;
+    }
+
+    .section {
+      padding: 60px 0;
+    }
+
+    .icon-box {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 16px;
+      transition: 0.3s ease;
+      text-align: center;
+      border: 1px solid #333;
+      height: 100%;
+    }
+
+    .icon-box:hover {
+      background: #2a2a2a;
+      transform: translateY(-5px);
+    }
+
+    .icon-box i {
+      font-size: 3rem;
+      color: #ef233c;
+      margin-bottom: 20px;
+    }
+
+    .icon-box h5 {
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    footer a {
+      color: #ef233c;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigācija -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('home') }}">F1 Latvija</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Sākums</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('news') }}">Ziņas</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('drivers') }}">Piloti</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('stats') }}">Statistika</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Kontakti</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Galvene -->
+  <header class="hero text-white">
+    <div class="container">
+      <h1>Laipni lūgti F1 Latvija</h1>
+      <p>Vieta, kur dzīvo ātrums, aizrautība un sacensību gars.</p>
+    </div>
+  </header>
+
+  <!-- Funkcionālās sadaļas -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="row text-center">
+
+        <!-- Ziņas -->
+        <div class="col-md-4 mb-4">
+          <a href="{{ url_for('news') }}" class="text-decoration-none text-white">
+            <div class="icon-box h-100">
+              <i class="fas fa-flag-checkered"></i>
+              <h5>Aktuālākās Ziņas</h5>
+              <p>Uzzini visu par jaunākajiem notikumiem trasē un ārpus tās.</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Piloti un Komandas -->
+        <div class="col-md-4 mb-4">
+          <a href="{{ url_for('drivers') }}" class="text-decoration-none text-white">
+            <div class="icon-box h-100">
+              <i class="fas fa-user-helmet-safety"></i>
+              <h5>Piloti un Komandas</h5>
+              <p>Iepazīsti F1 zvaigznes un iecienītākās komandas.</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Statistika un Grafiki -->
+        <div class="col-md-4 mb-4">
+          <a href="{{ url_for('stats') }}" class="text-decoration-none text-white">
+            <div class="icon-box h-100">
+              <i class="fas fa-chart-line"></i>
+              <h5>Statistika un Grafiki</h5>
+              <p>Analīze, punkti, rezultāti un sacensību vēsture.</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Kājene -->
+  <footer id="contact">
+    <div class="container">
+      <p>&copy; 2025 F1 Latvija. Visas tiesības aizsargātas.</p>
+      <p>Sazinies: <a href="mailto:info@f1latvija.lv">info@f1latvija.lv</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
