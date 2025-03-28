@@ -1,40 +1,67 @@
-from flask import Flask, render_template, jsonify
-import random
+from flask import Flask, render_template, send_file, request, redirect, url_for
+import pandas as pd
+import matplotlib.pyplot as plt
+import sqlite3
+import os
 
 app = Flask(__name__)
 
-seasons = ["2023", "2022", "2021"]
-race_data = {
-    "2023": {
-        "races": [
-            {"name": "Australian GP", "date": "2023-04-02", "position": random.randint(1, 10)},
-            {"name": "Bahrain GP", "date": "2023-03-05", "position": random.randint(1, 10)}
-        ]
-    },
-    "2022": {
-        "races": [
-            {"name": "French GP", "date": "2022-07-24", "position": random.randint(1, 10)},
-            {"name": "British GP", "date": "2022-07-03", "position": random.randint(1, 10)}
-        ]
-    },
-    "2021": {
-        "races": [
-            {"name": "Monaco GP", "date": "2021-05-23", "position": random.randint(1, 10)},
-            {"name": "Azerbaijan GP", "date": "2021-06-06", "position": random.randint(1, 10)}
-        ]
-    }
-}
+# Funkcija, lai ielādētu datus no SQLite datubāzes
+def load_data():
+    conn = sqlite3.connect('f1.db')
+    df = pd.read_sql_query("SELECT * FROM results", conn)
+    conn.close()
+    return df
 
 @app.route('/')
-def index():
-    return render_template('index.html', seasons=seasons)
+def home():
+    return render_template("home.html")
 
-@app.route('/get_race_data/<season>', methods=['GET'])
-def get_race_data(season):
-    if season in race_data:
-        return jsonify(race_data[season])
-    else:
-        return jsonify({"error": "Season not found"}), 404
+@app.route('/stats')
+def stats():
+    return render_template("stats.html")
+
+@app.route('/drivers')
+def drivers():
+    return render_template('drivers.html')
+
+@app.route('/news')
+def news():
+    return render_template('news.html')
+
+@app.route('/chart/<name>')
+def chart(name):
+    df = load_data()
+
+    os.makedirs('static/charts', exist_ok=True)
+
+    if name == "top5_pilots":
+        top5 = df.groupby("driver")["points"].sum().sort_values(ascending=False).head(5)
+        plt.figure(figsize=(8, 5))
+        top5.plot(kind='bar', color='#ef233c')
+        plt.title("Top 5 Piloti pēc Punktiem")
+        plt.ylabel("Punkti")
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        path = "static/charts/top5_pilots.png"
+        plt.savefig(path)
+        plt.close()
+        return send_file(path, mimetype='image/png')
+
+    elif name == "team_comparison":
+        teams = df.groupby("team")["points"].sum().sort_values(ascending=False)
+        plt.figure(figsize=(10, 5))
+        teams.plot(kind='bar', color='#8d99ae')
+        plt.title("Komandu Punkti")
+        plt.ylabel("Punkti")
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        path = "static/charts/team_comparison.png"
+        plt.savefig(path)
+        plt.close()
+        return send_file(path, mimetype='image/png')
+
+    return "Grafiks nav atrasts", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
